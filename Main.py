@@ -1,21 +1,16 @@
 # First draft
 
-import turtle
-
-# Set up the screen
-wn = turtle.Screen()
-wn.setup(1627, 842)
-wn.bgpic("bgpic.gif")
-wn.title("Steichenspiel")
-turtle.penup()
-
-# Set up the board
-turtle.setx(-200)
-turtle.sety(200)
-turtle.write("2", font=("Arial", 24, "normal"))
-
-# Close Screen
-wn.exitonclick()
+row_1 = [2] * 8
+row_2 = [0] * 4 + [2] * 4
+row_3 = [2] * 4 + [0] * 4
+row_4 = [2] * 8
 
 
+def show_board():
+    print(row_1)
+    print(row_2)
+    print(row_3)
+    print(row_4)
 
+
+show_board()
