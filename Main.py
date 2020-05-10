@@ -1,9 +1,10 @@
 # First draft
 
-row_1 = [2] * 8
+row_1 = [2] * 4 + [0] * 4
 row_2 = [0] * 4 + [2] * 4
 row_3 = [2] * 4 + [0] * 4
 row_4 = [2] * 8
+outcome = {"row": 1, "state": "IB", "rem": 0}
 
 
 def show_board():
@@ -40,8 +41,24 @@ def move_stone(row, col, start=True, plus=0, reverse=False):
         row.reverse()
     return{"row": row,
            "state": "IB",
-           "rem": stones - stone}
+           "rem": row[col - 1 + stones]}
 
 
-print(move_stone(row_1, 7, start=True, plus=0, reverse=False))
-show_board()
+def sim_start(row, col):
+    outcome = move_stone(row, col,
+                         start=True,
+                         plus=0,
+                         reverse=False)
+    while outcome["rem"] > 0:
+        if outcome["state"] == "OOB":
+        outcome = move_stone(row, col + outcome["rem"],
+                             start=False,
+                             plus=0,
+                             reverse=False)
+        show_board()
+
+sim_start(row_1, 1)
+
+
+
+
