@@ -8,6 +8,17 @@ row_4 = [2] * 8
 outcome = {"row": 1, "state": "IB", "rem": 0}
 
 
+def reset_board():
+    global row_1
+    global row_2
+    global row_3
+    global row_4
+    row_1 = [2] * 8
+    row_2 = [2] * 4 + [0] * 4
+    row_3 = [0] * 4 + [2] * 4
+    row_4 = [2] * 8
+
+
 def show_board():
     print(row_1)
     print(row_2)
@@ -149,10 +160,33 @@ def start_turn(row, col):
 def try_turns(player=1):
     if player == 1:
         for i in range(1, 9):
-            print(start_turn(row_1, 1)["p1"])
-            show_board()
+            reset_board()
+            if row_1[i - 1] > 1:
+                print("Move row 1 " + str(i))
+                print(start_turn(row_1, i)["p1"])
+                show_board()
+        for i in range(1, 9):
+            reset_board()
+            if row_2[i - 1] > 1:
+                print("Move row 2 " + str(i))
+                print(start_turn(row_2, i)["p1"])
+                show_board()
+    if player == 2:
+        for i in range(1, 9):
+            reset_board()
+            if row_3[i - 1] > 1:
+                print("Move row 3 " + str(i))
+                print(start_turn(row_3, i)["p2"])
+                show_board()
+        for i in range(1, 9):
+            reset_board()
+            if row_4[i - 1] > 1:
+                print("Move row 4 " + str(i))
+                print(start_turn(row_4, i)["p2"])
+                show_board()
 
 
-try_turns(1)
 
 
+try_turns(2)
+print(row_1)
