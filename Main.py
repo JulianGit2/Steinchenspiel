@@ -193,12 +193,12 @@ def try_turns(player=1):
     return state
 
 
-def play_game("firstplayer"=1, turn):
-    # Takes several turns
+def play_game(row, col):
+    # Show result of possible moves after some moves were made
+        start_turn(row, col)
+        show_board()
 
 
 
 
-result = try_turns(1)
-print(max(result["points"]))
-print(min(result["points]"]))
+play_game(row_1, 1)
