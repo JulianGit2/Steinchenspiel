@@ -16,12 +16,22 @@ def show_board():
 
 
 def move_stone(row, col, start=True, plus=0, reverse=False):
+    # Check if you are in row 2 or 3 - making stealing possible
+    is_row2 = False
+    is_row3 = False
+    if id(row) == id(row_2):
+        is_row2 = True
+    elif id(row) == id(row_3):
+        is_row3 = True
     # Reverse the list (if row 2 or row 4)
     if reverse:
         row.reverse()
     # Find how many stones are in the selected cell
     if start:
-        stones = row[col - 1]
+        if plus == 0:
+            stones = row[col - 1]
+        else:
+            stones = plus
     else:
         stones = plus
     # Remove all stones from first cell if first turn
@@ -41,8 +51,32 @@ def move_stone(row, col, start=True, plus=0, reverse=False):
             # Increase next cell by 1
             row[col - 1 + stone] += 1
 
+    # Check if you can steal opponents stones
+    if is_row2:
+        row_3_col = 9 - (col + stones)
+        if row_3[row_3_col - 1] > 0:
+            more_stones = (row[col - 1 + stones]
+                           + row_3[row_3_col - 1]
+                           + row_4[col - 1 + stones])
+            row_3[row_3_col - 1] = 0
+            row_4[row_3_col - 1] = 0
+            rem = more_stones
+        else:
+            rem = row[col - 1 + stones]
+    elif is_row3:
+        if row_2[col + stones - 1] > 0:
+            more_stones = (row[col - 1 + stones]
+                           + row_2[col + stones -1]
+                           + row_1[col + stones -1])
+            row_2[col + stones - 1] = 0
+            row_1[col + stones - 1] = 0
+            rem = more_stones
+        else:
+            rem = row[col - 1 + stones]
+    else:
+        rem = row[col - 1 + stones]
+
     # Return the row as well as the amount of stones still remaining
-    rem = row[col - 1 + stones]
     if reverse:
         row.reverse()
     return{"row": row,
@@ -76,7 +110,7 @@ def switch_row(row):
         print("No known row specified")
 
 
-def start_sim(row, col):
+def start_turn(row, col):
     reverse = is_reverse(row)
     # if reverse, switch column
     if reverse:
@@ -104,17 +138,11 @@ def start_sim(row, col):
             pos = outcome["pos"]
             outcome = move_stone(row, pos,
                                  start=True,
-                                 plus=0,
+                                 plus=remaining,
                                  reverse=reverse)
 
-    print("---")
-    print(sum(row_1) + sum(row_2))
-    print(outcome["rem"])
-    print(outcome["pos"])
-    show_board()
 
-start_sim(row_3, 5)
-
-
+start_turn(row_1, 1)
+show_board()
 
 
