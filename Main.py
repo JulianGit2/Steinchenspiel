@@ -77,8 +77,8 @@ def move_stone(row, col, start=True, plus=0, reverse=False):
     elif is_row3:
         if row_2[col + stones - 1] > 0:
             more_stones = (row[col - 1 + stones]
-                           + row_2[col + stones -1]
-                           + row_1[col + stones -1])
+                           + row_2[col + stones - 1]
+                           + row_1[col + stones - 1])
             row_2[col + stones - 1] = 0
             row_1[col + stones - 1] = 0
             rem = more_stones
@@ -158,35 +158,47 @@ def start_turn(row, col):
 
 
 def try_turns(player=1):
+    state = {"row": [], "col": [], "points": [], "board": []}
     if player == 1:
         for i in range(1, 9):
             reset_board()
             if row_1[i - 1] > 1:
-                print("Move row 1 " + str(i))
-                print(start_turn(row_1, i)["p1"])
+                state["row"].append("1")
+                state["col"].append(str(i))
+                state["points"].append(start_turn(row_1, i)["p1"])
                 show_board()
         for i in range(1, 9):
             reset_board()
             if row_2[i - 1] > 1:
-                print("Move row 2 " + str(i))
-                print(start_turn(row_2, i)["p1"])
+                state["row"].append("2")
+                state["col"].append(str(i))
+                state["points"].append(start_turn(row_2, i)["p1"])
                 show_board()
     if player == 2:
         for i in range(1, 9):
             reset_board()
             if row_3[i - 1] > 1:
-                print("Move row 3 " + str(i))
-                print(start_turn(row_3, i)["p2"])
+                state["row"].append("3")
+                state["col"].append(str(i))
+                state["points"].append(start_turn(row_3, i)["p2"])
                 show_board()
         for i in range(1, 9):
             reset_board()
             if row_4[i - 1] > 1:
-                print("Move row 4 " + str(i))
-                print(start_turn(row_4, i)["p2"])
+                state["row"].append("4")
+                state["col"].append(str(i))
+                state["points"].append(start_turn(row_4, i)["p2"])
                 show_board()
 
+    return state
+
+
+def play_game("firstplayer"=1, turn):
+    # Takes several turns
 
 
 
-try_turns(2)
-print(row_1)
+
+result = try_turns(1)
+print(max(result["points"]))
+print(min(result["points]"]))
