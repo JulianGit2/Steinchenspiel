@@ -141,8 +141,18 @@ def start_turn(row, col):
                                  plus=remaining,
                                  reverse=reverse)
 
+    p1_points = sum(row_1) + sum(row_2)
+    p2_points = sum(row_3) + sum(row_4)
+    return{"p1": p1_points, "p2": p2_points}
 
-start_turn(row_1, 1)
-show_board()
+
+def try_turns(player=1):
+    if player == 1:
+        for i in range(1, 9):
+            print(start_turn(row_1, 1)["p1"])
+            show_board()
+
+
+try_turns(1)
 
 
